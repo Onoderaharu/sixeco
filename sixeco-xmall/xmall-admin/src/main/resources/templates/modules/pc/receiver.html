@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>收货地址表</title>
+		<#include "/header.html">
+
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("pc:receiver:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("pc:receiver:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("pc:receiver:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+            <#if shiro.hasPermission("pc:receiver:query")>
+            <a class="btn btn-primary" @click="query"><i class="fa fa-trash-o"></i>&nbsp;查询</a>
+            </#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.userId" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">省</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.province" placeholder="省"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">市</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.city" placeholder="市"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">收货地址</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.receiverAddress" placeholder="收货地址"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">收货人</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.receiverName" placeholder="收货人"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">收货人手机号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.receiverPhone" placeholder="收货人手机号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">订单</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.ordersId" placeholder="订单"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.createTime" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.createBy" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.lastModifyTime" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">是否默认 0 :默认  1: 非默认</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.isDefault" placeholder="是否默认 0 :默认  1: 非默认"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.lastModifyBy" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">省id</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.provinceId" placeholder="省id"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">城市id</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="receiver.cityId" placeholder="城市id"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="${request.contextPath}/statics/js/modules/pc/receiver.js?_${.now?long}"></script>
+
+</body>
+</html>

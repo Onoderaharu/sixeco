@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.freeter.modules.area.dao.CityDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.freeter.modules.area.entity.CityEntity" id="cityMap">
+        <result property="cityId" column="city_id"/>
+        <result property="provinceId" column="province_id"/>
+        <result property="cityName" column="city_name"/>
+        <result property="zipCode" column="zip_code"/>
+    </resultMap>
+    
+    <select id="selectCityByProvId" parameterType="java.lang.Integer" 
+       resultType="com.freeter.modules.area.entity.CityEntity">
+       SELECT * FROM `city` city
+       <where>
+          city.province_id=#{_parameter}
+       </where>
+    </select>
+    
+	<select id="selectListVO"
+		resultType="com.freeter.modules.area.entity.vo.CityVO" >
+		SELECT * FROM `city`  city         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.freeter.modules.area.entity.vo.CityVO" >
+		SELECT  city.* FROM `city`  city 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.freeter.modules.area.entity.view.CityView" >
+
+		SELECT  city.* FROM `city`  city 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.freeter.modules.area.entity.view.CityView" >
+		SELECT * FROM `city`  city <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+</mapper>

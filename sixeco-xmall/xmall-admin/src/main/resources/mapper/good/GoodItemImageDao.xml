@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.freeter.modules.good.dao.GoodItemImageDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.freeter.modules.good.entity.GoodItemImageEntity" id="goodItemImageMap">
+        <result property="productItemImageId" column="product_item_image_id"/>
+        <result property="productItemId" column="product_item_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="url" column="url"/>
+        <result property="fileType" column="file_type"/>
+        <result property="tag" column="tag"/>
+        <result property="vsn" column="vsn"/>
+        <result property="type" column="type"/>
+        <result property="classify" column="classify"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.freeter.modules.good.entity.vo.GoodItemImageVO" >
+		SELECT * FROM `cn_good_item_image`  goodItemImage         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.freeter.modules.good.entity.vo.GoodItemImageVO" >
+		SELECT  goodItemImage.* FROM `cn_good_item_image`  goodItemImage 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.freeter.modules.good.entity.view.GoodItemImageView" >
+
+		SELECT  goodItemImage.* FROM `cn_good_item_image`  goodItemImage 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.freeter.modules.good.entity.view.GoodItemImageView" >
+		SELECT * FROM `cn_good_item_image`  goodItemImage <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectByItemId" resultMap="goodItemImageMap">
+        SELECT product_item_image_id, product_item_id, url, tag,type
+        FROM product_item_image WHERE  product_item_id = #{productItemId,jdbcType=INTEGER}
+        <if test="type != null ">
+            AND type = #{type,jdbcType=INTEGER}
+        </if>
+    </select>
+</mapper>

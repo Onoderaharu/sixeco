@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.freeter.modules.pc.dao.SeckillDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.freeter.modules.pc.entity.SeckillEntity" id="seckillMap">
+        <result property="id" column="id"/>
+        <result property="activityName" column="activity_name"/>
+        <result property="beginTime" column="begin_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="activityGoodId" column="activity_good_id"/>
+        <result property="describes" column="describes"/>
+        <result property="state" column="state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastModifyTime" column="last_modify_time"/>
+        <result property="lastModifyBy" column="last_modify_by"/>
+        <result property="type" column="type"/>
+        <result property="beginTimePoint" column="begin_time_point"/>
+        <result property="endTimePoint" column="end_time_point"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.freeter.modules.pc.entity.vo.SeckillVO" >
+		SELECT * FROM `cn_seckill`  seckill         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.freeter.modules.pc.entity.vo.SeckillVO" >
+		SELECT  seckill.* FROM `cn_seckill`  seckill 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.freeter.modules.pc.entity.view.SeckillView" >
+
+		SELECT  seckill.* FROM `cn_seckill`  seckill 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.freeter.modules.pc.entity.view.SeckillView" >
+		SELECT * FROM `cn_seckill`  seckill <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.freeter.modules.good.dao.GoodItemDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.freeter.modules.good.entity.GoodItemEntity" id="goodItemMap">
+        <result property="productItemId" column="product_item_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="level1Type" column="level1_type"/>
+        <result property="level2Type" column="level2_type"/>
+        <result property="level3Type" column="level3_type"/>
+        <result property="level4Type" column="level4_type"/>
+        <result property="level5Type" column="level5_type"/>
+        <result property="level6Type" column="level6_type"/>
+        <result property="level7Type" column="level7_type"/>
+        <result property="subtype2" column="subtype2"/>
+        <result property="subtype" column="subtype"/>
+        <result property="price" column="price"/>
+        <result property="description" column="description"/>
+        <result property="others" column="others"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="isUse" column="is_use"/>
+        <result property="type" column="type"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="productCode" column="product_code"/>
+        <result property="inventory" column="inventory"/>
+        <result property="vsn" column="vsn"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.freeter.modules.good.entity.vo.GoodItemVO" >
+		SELECT * FROM `cn_good_item`  goodItem         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.freeter.modules.good.entity.vo.GoodItemVO" >
+		SELECT  goodItem.* FROM `cn_good_item`  goodItem 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.freeter.modules.good.entity.view.GoodItemView" >
+
+		SELECT  goodItem.* FROM `cn_good_item`  goodItem 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.freeter.modules.good.entity.view.GoodItemView" >
+		SELECT *  FROM `cn_good_item`  goodItem <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <update id="deleteByProductId" >
+        update cn_good_item
+        set
+        is_deleted = 1
+        where product_id = #{productId,jdbcType=INTEGER}
+        <if test="type != null">
+            and  type = #{type,jdbcType=VARCHAR}
+        </if>
+    </update>
+
+    <resultMap id="Base_Img_ResultMap" type="com.freeter.modules.good.entity.view.GoodItemView" >
+        <id column="product_item_id" property="productItemId" jdbcType="INTEGER" />
+        <result column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="subtype" property="subtype" jdbcType="VARCHAR" />
+        <result column="subtype2" property="subtype2" jdbcType="VARCHAR" />
+        <result column="level1_type" property="level1Type" jdbcType="VARCHAR" />
+        <result column="level2_type" property="level2Type" jdbcType="VARCHAR" />
+        <result column="level3_type" property="level3Type" jdbcType="VARCHAR" />
+        <result column="level4_type" property="level4Type" jdbcType="VARCHAR" />
+        <result column="level5_type" property="level5Type" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="DOUBLE" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="others" property="others" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+        <result column="is_use" property="isUse" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="is_default" property="isDefault" jdbcType="VARCHAR" />
+        <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+        <result column="inventory" property="inventory" jdbcType="INTEGER"/>
+        <collection property="imgList" ofType="com.freeter.modules.good.entity.GoodItemImageEntity">
+            <id column="product_item_image_id" property="productItemImageId" jdbcType="INTEGER" />
+            <result column="item_id" property="productItemId" jdbcType="INTEGER" />
+            <result column="url" property="url" jdbcType="VARCHAR" />
+            <result column="tag" property="tag" jdbcType="VARCHAR" />
+            <result column="img_type" property="type" jdbcType="INTEGER" />
+        </collection>
+    </resultMap>
+    <!--查询周边商品的配置信息-->
+    <select id="getDeploy" resultMap="Base_Img_ResultMap">
+        SELECT  pi.* ,
+        pii.product_item_image_id,
+        pii.product_item_id AS item_id,
+        pii.url,
+        pii.tag,
+        pii.type as img_type
+        FROM
+        cn_good_item pi LEFT JOIN
+        cn_good_item_image pii on pi.product_item_id = pii.product_item_id
+        WHERE
+        pi.is_deleted = 0
+        AND pi.type = '1'
+        AND pi.product_id=#{productId}
+        <if test='level1Type != null and level1Type != "" and level1Type != "null"'>and level1_type = #{level1Type}</if>
+        <if test='level2Type != null and level2Type != "" and level2Type != "null"'>and level2_type = #{level2Type}</if>
+        <if test='level3Type != null and level3Type != "" and level3Type != "null"'>and level2_type = #{level3Type}</if>
+        <if test="productCode != null and productCode != null" > and product_code = #{productCode,jdbcType=VARCHAR} </if>
+        ORDER BY pi.product_item_id DESC
+    </select>
+
+    <select id="selectByProductIdAndTips" resultMap="goodItemMap">
+        SELECT cn_good_item.*
+        FROM cn_good_item WHERE 1=1 AND is_deleted = 0 AND product_id = #{productId} and type= 1
+        <if test="level1Type != null and level1Type != '' ">and level1_type = #{level1Type}</if>
+        <if test="level2Type != null and level2Type != '' ">and level2_type = #{level2Type}</if>
+        <if test="level3Type != null and level3Type != '' ">and level3_type = #{level3Type}</if>
+        <if test="level4Type != null and level4Type != '' ">and level4_type = #{level4Type}</if>
+        ORDER BY level1_type desc,level2_type desc limit 1;
+    </select>
+    
+    <select id="findById" resultMap="goodItemMap">
+        select cn_good_item.*  
+        from  cn_good_item  
+        WHERE 1=1 AND is_deleted = 0 
+        AND product_item_id = #{productItemId} and type= 1;
+    </select>
+
+    <!--根据商品配置编号和商品id查询该编号是否和其它商品关联-->
+    <select id="checkProductCode" resultMap="goodItemMap">
+        SELECT pi.*
+        FROM cn_good_item pi
+        WHERE  pi.product_code = #{productCode,jdbcType=VARCHAR}
+        <if test="productItemId != null ">
+            AND pi.product_item_id != #{productItemId,jdbcType=INTEGER}
+        </if> 
+        AND pi.is_deleted =0 and type =1
+    </select>
+
+    <!--查询product_item_id-->
+    <select id="getProductImg" resultType="java.util.Map" parameterType="com.freeter.modules.good.entity.view.GoodItemView">
+        select pro.product_id as productId,pro.product_item_id as productItemId,img.url ,pro.price,img.type,pro.inventory as inventory
+        from cn_good_item pro
+        LEFT JOIN cn_good_item_image img on img.product_item_id = pro.product_item_id
+        where 1=1
+        <if test="subtype != null and subtype != '' ">and pro.subtype = #{subtype}</if>
+        <if test="subtype2 != null and subtype2 != '' ">and pro.subtype2 = #{subtype2}</if>
+        <if test="level1Type != null and level1Type != '' ">and pro.level1_type = #{level1Type}</if>
+        <if test="level2Type != null and level2Type != '' ">and pro.level2_type = #{level2Type}</if>
+        <if test="level3Type != null and level3Type != '' ">and pro.level3_type = #{level3Type}</if>
+        <if test="level4Type != null and level4Type != '' ">and pro.level4_type = #{level4Type}</if>
+        <if test="productId != null">and pro.product_id = #{productId}</if>
+        and pro.is_deleted = "0"
+        and pro.is_use = "1"
+    </select>
+
+    <!--查询product_item_id-->
+    <select id="getProductItemLv" resultMap="goodItemMap" parameterType="com.freeter.modules.good.entity.GoodItemEntity">
+        select product_item.*  from product_item pro where 1=1
+        <if test="level1Type != null and level1Type != '' ">and pro.level1_type = #{level1Type}</if>
+        <if test="level2Type != null and level2Type != '' ">and pro.level2_type = #{level2Type}</if>
+        <if test="level3Type != null and level3Type != '' ">and pro.level3_type = #{level3Type}</if>
+        <if test="level4Type != null and level4Type != '' ">and pro.level4_type = #{level4Type}</if>
+        <if test="type != null">and pro.type = #{type}</if>
+        <if test="productId != null">and pro.product_id = #{productId}</if>
+        and pro.is_deleted = "0"
+        and pro.is_use = "1"
+    </select>
+</mapper>

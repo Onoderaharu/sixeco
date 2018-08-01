@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.freeter.modules.pc.dao.ReceiverDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.freeter.modules.pc.entity.ReceiverEntity" id="receiverMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="receiverAddress" column="receiver_address"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="receiverPhone" column="receiver_phone"/>
+        <result property="ordersId" column="orders_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastModifyTime" column="last_modify_time"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="lastModifyBy" column="last_modify_by"/>
+        <result property="provinceId" column="province_id"/>
+        <result property="cityId" column="city_id"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.freeter.modules.pc.entity.vo.ReceiverVO" >
+		SELECT * FROM `receiver`  receiver         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.freeter.modules.pc.entity.vo.ReceiverVO" >
+		SELECT  receiver.* FROM `receiver`  receiver 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.freeter.modules.pc.entity.view.ReceiverView" >
+
+		SELECT  receiver.* FROM `receiver`  receiver 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.freeter.modules.pc.entity.view.ReceiverView" >
+		SELECT * FROM `receiver`  receiver <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+</mapper>

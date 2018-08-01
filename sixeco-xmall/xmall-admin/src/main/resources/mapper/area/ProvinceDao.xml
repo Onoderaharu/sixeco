@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.freeter.modules.area.dao.ProvinceDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.freeter.modules.area.entity.ProvinceEntity" id="provinceMap">
+        <result property="provinceId" column="province_id"/>
+        <result property="provinceName" column="province_name"/>
+        <result property="area" column="area"/>
+        <result property="provinceCode" column="province_code"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.freeter.modules.area.entity.vo.ProvinceVO" >
+		SELECT * FROM `province`  province         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.freeter.modules.area.entity.vo.ProvinceVO" >
+		SELECT  province.* FROM `province`  province 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.freeter.modules.area.entity.view.ProvinceView" >
+
+		SELECT  province.* FROM `province`  province 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.freeter.modules.area.entity.view.ProvinceView" >
+		SELECT * FROM `province`  province <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+</mapper>
